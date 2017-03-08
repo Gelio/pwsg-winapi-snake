@@ -80,6 +80,10 @@ LRESULT CALLBACK BallWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	case WM_CREATE:
 		RegisterHotKey(hWnd, 100, NULL, VK_SPACE);
 		SetTimer(hWnd, 0, MOVE_INTERVAL, NULL);
+		AddIconToSystemTray(hWnd);
+		break;
+	case WM_TRAY:
+		HandleTray(hWnd, wParam, lParam);
 		break;
 
 	case WM_TIMER:
@@ -101,6 +105,9 @@ LRESULT CALLBACK BallWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		// Parse the menu selections:
 		switch (wmId)
 		{
+		case ID_SCORE_EXIT:
+			PostQuitMessage(0);
+			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
@@ -115,6 +122,7 @@ LRESULT CALLBACK BallWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	}
 	break;
 	case WM_DESTROY:
+		RemoveIconFromSystemTray();
 		PostQuitMessage(0);
 		break;
 	default:
@@ -122,3 +130,4 @@ LRESULT CALLBACK BallWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	}
 	return 0;
 }
+

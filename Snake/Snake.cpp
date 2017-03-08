@@ -137,6 +137,7 @@ void SnakeMakeMove()
 	BOOL ballCaught = IntersectRect(&a, &nextHeadRect, &ballRect);
 	if (ballCaught)
 	{
+		playerPoints++;
 		AddNewHeadSegment();
 		PlaceBallInRandomPosition();
 	}
