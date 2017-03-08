@@ -47,9 +47,6 @@ bool InitBallInstance(HINSTANCE hInstance, int nCmdShow)
 	HRGN region = CreateEllipticRgn(0, 0, BALL_WIDTH, BALL_HEIGHT);
 	SetWindowRgn(ball, region, true);
 
-	//ShowWindow(ball, nCmdShow);
-	//UpdateWindow(ball);
-
 	// Set as top-most window
 	long style = GetWindowLong(ball, GWL_EXSTYLE);
 	style |= WS_EX_TOPMOST;
@@ -103,12 +100,6 @@ LRESULT CALLBACK BallWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		// Parse the menu selections:
 		switch (wmId)
 		{
-		case IDM_ABOUT:
-			//DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-			break;
-		case IDM_EXIT:
-			DestroyWindow(hWnd);
-			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}

@@ -35,6 +35,7 @@ bool AddNewSnakeSegment(int x, int y)
 	if (snakeSegments >= MAX_SNAKE_SEGMENTS)
 		return false;
 
+	// Create a new segment and update pointers to head and tail
 	snakePart *previousHead = head;
 	head = new snakePart;
 	if (!tail)
@@ -48,21 +49,20 @@ bool AddNewSnakeSegment(int x, int y)
 		return false;
 
 	snakeSegments++;
+	// Apply styles (semi-transparent, not appearing in task-bar, topmost)
 	long style = GetWindowLong(head->hWnd, GWL_EXSTYLE);
 	style |= WS_EX_LAYERED;
 	style |= WS_EX_TOOLWINDOW;
 	style |= WS_EX_TOPMOST;
-
 	SetWindowLong(head->hWnd, GWL_EXSTYLE, style);
 
+	// Make snake semi-transparent
 	SetLayeredWindowAttributes(head->hWnd, 0, SNAKE_TRANSPARENCY * 255, LWA_ALPHA);
 	SetWindowPos(head->hWnd, HWND_TOPMOST, x, y, SNAKE_WIDTH, SNAKE_HEIGHT, SWP_SHOWWINDOW);
 
+	// Make snake a rounded square
 	HRGN region = CreateRoundRectRgn(0, 0, SNAKE_WIDTH, SNAKE_HEIGHT, SNAKE_ROUNDED_CORNER, SNAKE_ROUNDED_CORNER);
 	SetWindowRgn(head->hWnd, region, true);
-
-	ShowWindow(head->hWnd, SW_SHOW);
-	UpdateWindow(head->hWnd);
 	return true;
 }
 
@@ -163,12 +163,6 @@ LRESULT CALLBACK SnakeWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 		// Parse the menu selections:
 		switch (wmId)
 		{
-		case IDM_ABOUT:
-			//DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-			break;
-		case IDM_EXIT:
-			DestroyWindow(hWnd);
-			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
