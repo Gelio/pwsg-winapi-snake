@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<title>Windows API - zadanie 1</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<h4>Windows API - cz.1</h4>
+<p>Snake</p>
+<li><a href="WinAPI_Snake.exe">Wzór programu</a></li>
+  <li>Opis zadania:
+    <ul>
+	 <li>Wąż składający się z zaokrąglonych okien</li>
+	 <li>Poruszanie wężem za pomocą strzałek</li>
+	 <li>Zdobycie bonusu wydłuża węża</li>
+    </ul>
+  </li>
+  <li>Funkcjonalność:
+    <ul>
+     <li>Bonus:
+       <ul>
+	     <li>czerwone kółko</li>
+	     <li>pojawia się w losowych miejscach</li>
+       </ul>
+      </li>
+      <li>Wąż:
+       <ul>
+         <li>od 3 do 100 okien, przezroczystość 40%, w kolorze fioletowym, zaokrąglone</li>
+         <li>pozycja węża zmienia się co 300ms</li>
+         <li>brak sprawdzania kolizji węża z wężem</li>
+		 <li>gdy wyjdzie poza ekran, pojawia się z drugiej strony</li>
+		 <li>po zjedzeniu bonusa, długość węża rośnie (należy również umożliwić rośnięcie poprzez wciśnięcie klawisza, np. spacji)</li>
+       </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Dodatkowe wymagania:
+    <ul>
+     <li>na pasku zadań widoczne tylko jedno okno</li>
+     <li>okno aplikacji zawsze na wierzchu innych okien</li>
+     <li>kombinacja Alt+F4 kończy działanie aplikacji</li>
+	 <li>menu systemowe po kliknięciu kombinacji Alt+Spacja lub kliknięciu prawym przyciskiem myszy na oknie w pasku zadań</li>
+    </ul>
+  </li>
+  <li>Wskazówki:
+    <ul>
+      <li>SetLayeredWindowAttributes(), WS_EX_LAYERED</li>
+	  <li>SetWindowRgn(), GetWindowRect(), MoveWindow()
+		<ul>
+		<li>przykład stworzenia i ustawienia regionu okna
+<pre>HRGN region=CreateEllipticRgn(0,0,10,10);
+SetWindowRgn(hWnd,region,true);</pre></li>
+		</ul>
+	  </li>
+	  <li>RegisterHotKey(), WM_HOTKEY</li>
+	  <li>GetWindowRect(), MoveWindow()</li>
+    </ul>
+  </li>
+</ul>
+
+<ul>
+		<li>Punktacja:
+		<ul>
+			<li>poprawne wyświetlanie okien węża oraz bonusu (spełniają wszystkie warunki wyglądu): 4 punkty</li>
+			<li>poprawne poprawna obsługa poruszania się węża oraz zdobywania bonusu: 4 punkty</li>
+			<li><i>Uwaga: nie ma możliwości zdobycia punktów za niepełne funkcjonalności</i></li>
+		</ul>
+		</li>
+</ul>
+
+<h4>Windows API - cz.2</h4>
+    <ul>
+        <li><a href="WinAPI_Snake2.exe">Wzór programu</a></li> 
+        <li>Opis zadania: 
+            <ul>
+				<li>aplikacja ma się <b>nie</b> pokazywać na pasku zadań</li>
+				<li>należy dodać ikonkę programu do zasobnika systemowego (system tray)</li>
+				<li>po kliknięciu w ikonę w zasobniku systemu pojawia się menu</li>
+				<li>menu zawiera licznik punktów (nieaktywny/wyszarzony) oraz przycisk Exit</li>
+				
+				<li>do wyświetlania bonusów należy skorzystać z <a href="diamonds.bmp">animacji diamentów</a></li>
+				<ul> 
+					<li>animacja składa się z 8 klatek riamentów w 6 różnych kolorach</li>
+					<li>klatka animacji trwa 200ms</li>
+					<li>niedozwolone jest użycie funkcji TransparentBlt</li>
+					<li>należy utworzyć dynamicznie maskę, wskazujące które piksele bitmapy mają zostać narysowane, a które pozostać przezroczyste</li>
+					<li>kolor pikseli w masce zdefininiować jako [255, 255, 255] jeśli piksel w bitmapie ma kolor przezroczysty lub jako [0, 0, 0] w p.p.</li>
+					<li>kolor przezroczysty w bitmapie zastąpić kolorem [0, 0, 0]</li>
+                </ul>
+                <li>kolory kolejnych diamentów są losowane</li>
+                
+                <li>należy zapobiec wszystkim efektom mrugania</li>
+            </ul>
+        </li>
+		<li>Wskazówki:
+		<ul>
+		  <li>ShellApi: NOTIFYICONDATA, Shell_NotifyIcon</li>
+		</ul>
+		</li>
+		<li>Orientacyjna punktacja:
+		<ul>
+            <li>zachowanie wymagań z cz.1: 2 punkty</li>
+            <li>brak aplikacji na pasku zadań: 2 punkty</li>
+            <li>ikonka w zasobniku systemowym: 2 punkty</li>
+            <li>menu wraz z licznkiem punktów: 1 punkt</li>
+            <li>animacja diamentu: 3 punkty</li>
+            <li>poprawne, optymalne rysowanie animacji diamentów (brak mrugania): 2 punkty</li>
+		</ul>
+		</li>
+    </ul>
+
+</body>
+</html>
