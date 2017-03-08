@@ -50,6 +50,7 @@ bool InitBallInstance(HINSTANCE hInstance, int nCmdShow)
 	// Set as top-most window
 	long style = GetWindowLong(ball, GWL_EXSTYLE);
 	style |= WS_EX_TOPMOST;
+	style |= WS_EX_TOOLWINDOW;
 	SetWindowLong(ball, GWL_EXSTYLE, style);
 	SetWindowPos(ball, HWND_TOPMOST, ballPosition.x, ballPosition.y, BALL_WIDTH, BALL_HEIGHT, SWP_SHOWWINDOW);
 
