@@ -139,7 +139,7 @@ void SnakeMakeMove()
 	{
 		playerPoints++;
 		AddNewHeadSegment();
-		PlaceBallInRandomPosition();
+		CreateNewDiamond();
 	}
 	else
 		MoveLastSnakeSegmentToFront(nextHeadPosition);

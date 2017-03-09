@@ -43,7 +43,7 @@ void PrepareNotificationIconData(HWND hWnd)
 	notifyIconData.uID = 1;
 	notifyIconData.uVersion = NOTIFYICON_VERSION_4;
 	StringCchCopy(notifyIconData.szTip, ARRAYSIZE(notifyIconData.szTip), L"Snake");
-	notifyIconData.uCallbackMessage = WM_TRAY;
+	notifyIconData.uCallbackMessage = WM_APP_TRAY;
 }
 
 void AddIconToSystemTray(HWND hWnd)

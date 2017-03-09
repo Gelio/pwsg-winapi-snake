@@ -15,6 +15,8 @@
 #define IDR_MAINFRAME                   128
 #define IDR_MENU1                       129
 #define IDD_DIALOG1                     130
+#define IDB_BITMAP1                     132
+#define IDB_DIAMONDS                    132
 #define ID_SCORE                        32771
 #define ID_EXIT                         32772
 #define ID_SCORE_SCORE                  32773
@@ -26,7 +28,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        131
+#define _APS_NEXT_RESOURCE_VALUE        133
 #define _APS_NEXT_COMMAND_VALUE         32775
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           110
