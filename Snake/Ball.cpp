@@ -9,6 +9,9 @@ WCHAR szBallTitle[MAX_LOADSTRING];
 int diamondType;
 int diamondAnimationSprite;
 
+HBITMAP diamondsBitmap = nullptr;
+HDC diamondsHdc;
+
 ATOM RegisterBallClass(HINSTANCE hInstance)
 {
 	WNDCLASSEXW wcex;
@@ -22,7 +25,7 @@ ATOM RegisterBallClass(HINSTANCE hInstance)
 	wcex.hInstance = hInstance;
 	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SNAKE));
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wcex.hbrBackground = CreateSolidBrush(RGB(255, 0, 0));
+	wcex.hbrBackground = NULL;
 	wcex.lpszMenuName = NULL;
 	wcex.lpszClassName = szBallWindowClass;
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
@@ -48,15 +51,14 @@ bool InitBallInstance(HINSTANCE hInstance, int nCmdShow)
 	if (!ball)
 		return false;
 
-	// Make ball a circle
-	/*HRGN region = CreateEllipticRgn(0, 0, BALL_WIDTH, BALL_HEIGHT);
-	SetWindowRgn(ball, region, true);*/
-
 	// Set as top-most window
 	long style = GetWindowLong(ball, GWL_EXSTYLE);
+	style |= WS_EX_LAYERED;
 	style |= WS_EX_TOPMOST;
 	style |= WS_EX_TOOLWINDOW;
 	SetWindowLong(ball, GWL_EXSTYLE, style);
+
+	SetLayeredWindowAttributes(ball, DIAMOND_BACKGROUND_COLOR, 255, LWA_COLORKEY | LWA_ALPHA);
 	SetWindowPos(ball, HWND_TOPMOST, ballPosition.x, ballPosition.y, BALL_WIDTH, BALL_HEIGHT, SWP_SHOWWINDOW);
 
 	UpdateWindow(ball);
@@ -90,23 +92,19 @@ void PaintDiamond(HWND hWnd)
 {
 	PAINTSTRUCT ps;
 	HDC hdc = BeginPaint(hWnd, &ps);
-	HBITMAP diamonds = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_DIAMONDS));
-
-	HDC diamondsHdc = CreateCompatibleDC(hdc);
-	SelectObject(diamondsHdc, diamonds);
+	if (!diamondsBitmap)
+		LoadDiamondBitmap(hdc);
 
 	int diamondTopLeftX = diamondAnimationSprite * DIAMOND_WIDTH;
 	int diamondTopLeftY = diamondType * DIAMOND_HEIGHT;
-	BitBlt(hdc, 0, 0, DIAMOND_WIDTH, DIAMOND_HEIGHT, diamondsHdc, diamondTopLeftX, diamondTopLeftY, SRCCOPY);
-	diamondAnimationSprite++;
-	diamondAnimationSprite %= DIAMOND_ANIMATION_SPRITES;
 
-	DeleteDC(diamondsHdc);
-	DeleteObject(diamonds);
+	BitBlt(hdc, 0, 0, DIAMOND_WIDTH, DIAMOND_HEIGHT, diamondsHdc, diamondTopLeftX, diamondTopLeftY, SRCCOPY);
 	DeleteDC(hdc);
-	
 
 	EndPaint(hWnd, &ps);
+
+	diamondAnimationSprite++;
+	diamondAnimationSprite %= DIAMOND_ANIMATION_SPRITES;
 }
 
 void ForceDiamondUpdate()
@@ -117,6 +115,13 @@ void ForceDiamondUpdate()
 	rect.bottom = BALL_HEIGHT;
 	rect.right = BALL_WIDTH;
 	InvalidateRect(ball, &rect, TRUE);
+}
+
+void LoadDiamondBitmap(HDC hdc)
+{
+	diamondsBitmap = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_DIAMONDS));
+	diamondsHdc = CreateCompatibleDC(hdc);
+	SelectObject(diamondsHdc, diamondsBitmap);
 }
 
 LRESULT CALLBACK BallWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -168,11 +173,21 @@ LRESULT CALLBACK BallWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		}
 	}
 	break;
+
+	/*case WM_ERASEBKGND:
+		return 1;*/
+
 	case WM_PAINT:
 		PaintDiamond(hWnd);
 		break;
+
 	case WM_DESTROY:
 		RemoveIconFromSystemTray();
+		if (diamondsBitmap)
+		{
+			DeleteDC(diamondsHdc);
+			DeleteObject(diamondsBitmap);
+		}
 		PostQuitMessage(0);
 		break;
 	default:
