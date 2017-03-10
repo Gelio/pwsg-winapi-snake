@@ -62,6 +62,7 @@ void HandleTray(HWND hWnd, WPARAM wParam, LPARAM lParam)
 {
 	switch (LOWORD(lParam))
 	{
+	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 	case WM_CONTEXTMENU:
 		ShowContextMenu(hWnd, wParam, lParam);
