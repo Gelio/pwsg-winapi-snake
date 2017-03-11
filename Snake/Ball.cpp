@@ -130,7 +130,7 @@ LRESULT CALLBACK BallWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	{
 	case WM_CREATE:
 		RegisterHotKey(hWnd, 100, NULL, VK_SPACE);
-		SetTimer(hWnd, WM_APP_MOVE_SNAKE, MOVE_INTERVAL, NULL);
+		SetTimer(hWnd, WM_APP_MOVE_SNAKE, SNAKE_MOVE_INTERVAL, NULL);
 		SetTimer(hWnd, WM_APP_ROTATE_DIAMOND, DIAMOND_ROTATE_INTERVAL, NULL);
 		AddIconToSystemTray(hWnd);
 		break;
