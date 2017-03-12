@@ -166,7 +166,7 @@ LRESULT CALLBACK BallWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		switch (wmId)
 		{
 		case ID_SCORE_EXIT:
-			PostQuitMessage(0);
+			DestroyWindow(ball);
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);

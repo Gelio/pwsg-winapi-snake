@@ -76,7 +76,7 @@ void ShowContextMenu(HWND hWnd, WPARAM wParam, LPARAM lParam)
 	HMENU menuTrackPopup = GetSubMenu(menu, 0);
 	
 	WCHAR szScore[MAX_LOADSTRING];
-	swprintf(szScore, MAX_LOADSTRING, L"Score: %d", playerPoints);
+	swprintf(szScore, MAX_LOADSTRING, L"Score: \t\t%d", playerPoints);
 	ModifyMenu(menuTrackPopup, 0, MF_BYPOSITION | MF_STRING | MF_GRAYED | MF_DISABLED, 0, szScore);
 
 	int mouseX = GET_X_LPARAM(wParam),
